@@ -7,8 +7,9 @@ namespace Completed
 	//Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
 	public class Player : MovingObject
 	{
-		public float restartLevelDelay = 1f;		//Delay time in seconds to restart level.
-		public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
+		public float restartLevelDelay = 1f;        //Delay time in seconds to restart level.
+        public int collectedPrizes;
+        public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
 		public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
 		public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
         public int enemyDamage = 1;                 //How much damge a player does to a enemy.
@@ -35,9 +36,9 @@ namespace Completed
 		{
 			//Call the Start function of the MovingObject base class.
 			base.Start ();
-
-			//Get a component reference to the Player's animator component
-			animator = GetComponent<Animator>();
+            collectedPrizes = 0;
+            //Get a component reference to the Player's animator component
+            animator = GetComponent<Animator>();
 
 			//Get the current food point total stored in GameManager.instance between levels.
 			m_AleCurrent = m_AleMax;
@@ -263,7 +264,14 @@ namespace Completed
                 //Disable the soda object the player collided with.
                 other.gameObject.SetActive(false);
             }
-           
+           else if(other.tag == "Prize")
+            {
+                collectedPrizes++;
+                if(collectedPrizes == 3)
+                {
+                    //ToDo enable ezxit portal/boat thing 
+                }
+            }
         }
 
       
