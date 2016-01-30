@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 namespace Completed
 {
 	//Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
@@ -14,8 +14,8 @@ namespace Completed
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
 		private Transform target;							//Transform to attempt to move toward each turn.
 		private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
-
-
+        private Image[] healthBars;
+        private Image greenHealthBar;
         //Start overrides the virtual Start function of the base class.
     
         protected override void Start ()
@@ -24,9 +24,17 @@ namespace Completed
 			//This allows the GameManager to issue movement commands.
 			GameManager.instance.AddEnemyToList (this);
             health = 1;
+            healthBars = GetComponentsInChildren<Image>();
+            foreach(Image i in healthBars)
+            {
+                if (i.gameObject.name== "GreenBar")
+                {
+                    greenHealthBar = i;
+                }
+            }
 			//Get and store a reference to the attached Animator component.
 			animator = GetComponent<Animator> ();
-			
+           
 			//Find the Player GameObject using it's tag and store a reference to its transform component.
 			target = GameObject.FindGameObjectWithTag ("Player").transform;
             isDead = false;
@@ -103,7 +111,9 @@ namespace Completed
         }
         public void DamageEnemy(int dmg)
         {
-            health-=dmg;
+            
+            health -=dmg;
+           // greenHealthBar.fillAmount = health; To do link enemy health and the fill amount of the green bar;
             if(health == 0)
             {
                 isDead = true;
