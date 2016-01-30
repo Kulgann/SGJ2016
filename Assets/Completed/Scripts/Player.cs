@@ -53,8 +53,13 @@ namespace Completed
 			//When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
 			//GameManager.instance.playerFoodPoints = food;
 		}		
-		
-		private void Update ()
+
+        public void DestroyAfterAnimFinish()
+        {
+            Destroy(this.gameObject);
+        }
+
+        private void Update ()
 		{
 			//If it's not the player's turn, exit the function.
 			if(!GameManager.instance.playersTurn) return;

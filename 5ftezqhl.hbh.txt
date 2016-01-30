@@ -1,0 +1,41 @@
+﻿Merge remote-tracking branch 'origin/master'
+
+# Conflicts:
+#	Assets/Completed/Prefabs/Player.prefab
+#	Assets/Completed/Scenes/Main.unity
+#	Assets/Completed/Scripts/Player.cs
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 1 and 5 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	deleted:    Assets/12625797_1087125227989069_1436482329_n.jpg
+#	deleted:    Assets/12665881_1087125231322402_1234319989_n.jpg
+#	modified:   Assets/Completed/Animation/Animations/PlayerChop.anim
+#	modified:   Assets/Completed/Animation/Animations/PlayerIdle.anim
+#	modified:   Assets/Completed/Animation/AnimatorControllers/Enemy1.controller
+#	modified:   Assets/Completed/Prefabs/Enemy1.prefab
+#	modified:   Assets/Completed/Scripts/Enemy.cs
+#	modified:   Assets/Completed/Scripts/Player.cs
+#	new file:   Assets/Sprites/hero_idle_sprite_sheet.png
+#	new file:   Assets/Sprites/hero_idle_sprite_sheet.png.meta
+#	new file:   Assets/green.png
+#	renamed:    Assets/12625797_1087125227989069_1436482329_n.jpg.meta -> Assets/green.png.meta
+#	new file:   Assets/red.png
+#	renamed:    Assets/12665881_1087125231322402_1234319989_n.jpg.meta -> Assets/red.png.meta
+#	new file:   Assets/test.cs
+#	new file:   Assets/test.cs.meta
+#
+
