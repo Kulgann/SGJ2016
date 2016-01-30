@@ -237,7 +237,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Food.
             else if (other.tag == "Food")
             {
-				ChangeAle(pointsPerFood);
+				ChangeHealth(pointsPerFood);
 				
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
@@ -320,6 +320,13 @@ namespace Completed
 			m_AleCurrent += change;
 			m_AleText.text = "Ale:" + m_AleCurrent; 
 		}
+        private void ChangeHealth(int change)
+        {
+            m_HealthCurrent += change;
+            m_HealthText.text = "Health:" + m_HealthCurrent;
+            if (m_HealthCurrent > m_HealthMax)
+                m_HealthCurrent = m_HealthMax;
+        }
 	}
 }
 
