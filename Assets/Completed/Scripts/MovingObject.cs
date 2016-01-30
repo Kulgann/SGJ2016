@@ -3,13 +3,18 @@ using System.Collections;
 using System;
 namespace Completed
 {
+	public enum DIRECTION
+	{
+		Left,
+		Right,
+	};
 	//The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
 	public abstract class MovingObject : MonoBehaviour
 	{
 		public float moveTime = 0.1f;			//Time it will take object to move, in seconds.
-		public LayerMask blockingLayer;			//Layer on which collision will be checked.
-		
-		
+		public LayerMask blockingLayer;         //Layer on which collision will be checked.
+
+		public DIRECTION	m_Direction;
 		private BoxCollider2D boxCollider; 		//The BoxCollider2D component attached to this object.
 		private Rigidbody2D rb2D;				//The Rigidbody2D component attached to this object.
 		private float inverseMoveTime;			//Used to make movement more efficient.
@@ -26,6 +31,7 @@ namespace Completed
 			
 			//By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
 			inverseMoveTime = 1f / moveTime;
+			m_Direction = DIRECTION.Right;
 		}
 		
 		
@@ -53,6 +59,8 @@ namespace Completed
 			{
 				//If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
 				StartCoroutine (SmoothMovement (end));
+				if (xDir != 0)
+					m_Direction = xDir == -1 ? DIRECTION.Left : DIRECTION.Right;
 				
 				//Return true to say that Move was successful
 				return true;
@@ -91,7 +99,7 @@ namespace Completed
 		
 		//The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.
 		//AttemptMove takes a generic parameter T to specify the type of component we expect our unit to interact with if blocked (Player for Enemies, Wall for Player).
-		protected virtual void AttemptMove <T> (int xDir, int yDir)
+		protected virtual Transform AttemptMove <T> (int xDir, int yDir)
 			where T : Component
 		{
 			//Hit will store whatever our linecast hits when Move is called.
@@ -104,20 +112,21 @@ namespace Completed
 			//Check if nothing was hit by linecast
 			if(hit.transform == null)
 				//If nothing was hit, return and don't execute further code.
-				return;
+				return null;
 			
 			//Get a component reference to the component of type T attached to the object that was hit
 			T hitComponent = hit.transform.GetComponent <T> ();
-            Type currentType = hitComponent.GetType();
-           if(currentType == typeof(Wall))
-            {
-                Debug.Log("EBAH TA !!!");
-            }
-            //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
-			if(!canMove && hitComponent != null)
-				
-				//Call the OnCantMove function and pass it hitComponent as a parameter.
-				OnCantMove (hitComponent);
+
+			if (hitComponent != null)
+			{
+				Type currentType = hitComponent.GetType();
+				if (currentType != typeof(Wall))
+				{
+					OnCantMove(hitComponent);
+				}
+			}
+
+			return hit.transform;
 		}
 		
 		

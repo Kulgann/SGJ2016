@@ -11,7 +11,7 @@ namespace Completed
 		public int pointsPerFood = 10;				//Number of points to add to player food points when picking up a food object.
 		public int pointsPerSoda = 20;				//Number of points to add to player food points when picking up a soda object.
 		public int wallDamage = 1;                  //How much damage a player does to a wall when chopping it.
-        public int m_Damage = 1;                 //How much damge a player does to a enemy.
+        public int enemyDamage = 1;                 //How much damge a player does to a enemy.
 		public int m_HealthMax = 0;
 		public int m_AleMax = 0;
 		public Text m_AleText;                      //UI Text to display current player food total.
@@ -129,21 +129,32 @@ namespace Completed
 				//Call AttemptMove passing in the generic parameter Wall, since that is what Player may interact with if they encounter one (by attacking it)
 				//Pass in horizontal and vertical as parameters to specify the direction to move Player in.
 				AttemptMove<Wall> (horizontal, vertical);
-                AttemptMove<Enemy>(horizontal, vertical);
             }
 		}
 		
 		//AttemptMove overrides the AttemptMove function in the base class MovingObject
 		//AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
-		protected override void AttemptMove <T> (int xDir, int yDir)
+		protected override Transform AttemptMove <T> (int xDir, int yDir)
 		{
 			//Every time player moves, subtract from food points total.
 			ChangeAle(-1);
 			//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
-			base.AttemptMove <T> (xDir, yDir);
-			
+			Transform hit_transform = base.AttemptMove <T> (xDir, yDir);
+
+			if (hit_transform != null)
+			{
+				animator.SetTrigger("playerChop");
+				//play hit animation and sound
+				Wall hitWall = hit_transform.GetComponent<Wall>();
+				if (hitWall != null)
+					hitWall.DamageWall(wallDamage);
+				Enemy hitEnemy = hit_transform.GetComponent<Enemy>();
+				if (hitEnemy != null)
+					hitEnemy.DamageEnemy(enemyDamage);
+			}
+
 			//Hit allows us to reference the result of the Linecast done in Move.
-			RaycastHit2D hit;
+				RaycastHit2D hit;
 			
 			//If Move returns true, meaning Player was able to move into an empty space.
 			if (Move (xDir, yDir, out hit)) 
@@ -157,6 +168,7 @@ namespace Completed
 			
 			//Set the playersTurn boolean of GameManager to false now that players turn is over.
 			GameManager.instance.playersTurn = false;
+			return null;
 		}
 		
 		
@@ -164,24 +176,6 @@ namespace Completed
 		//It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
 		protected override void OnCantMove <T> (T component)
 		{
-            //Set hitWall to equal the component passed in as a parameter.
-            Wall hitWall;
-            Enemy hitEnemy;
-            if (component.gameObject.tag == "Wall")
-            {
-                hitWall = component as Wall;
-                //Call the DamageWall function of the Wall we are hitting.
-                hitWall.DamageWall(wallDamage);
-            }
-            if(component.gameObject.tag == "Enemy")
-            {
-                hitEnemy = component as Enemy;
-                //Call the DamageEnemy function from the Enemy we are hitting 
-                hitEnemy.DamageEnemy(m_Damage);
-            }
-         
-			//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-			animator.SetTrigger ("playerChop");
 		}
 
 
@@ -189,7 +183,6 @@ namespace Completed
         private void OnTriggerEnter2D(Collider2D other)
         {
             //Check if the tag of the trigger collided with is Exit.
-            Debug.Log("LAPAM!");
             if (other.tag == "Exit")
             {
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
