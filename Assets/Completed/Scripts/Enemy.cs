@@ -1,20 +1,42 @@
 ﻿using UnityEngine;
-using System.Collections;
+//using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Completed
 {
+	public static class ListShufflerExtensionMethods
+	{
+		private static System.Random rng = new System.Random();
+
+		public static void Shuffle<T>(this IList<T> list)
+		{
+			int n = list.Count;
+			while (n > 1)
+			{
+				n--;
+				int k = rng.Next(n + 1);
+				T value = list[k];
+				list[k] = list[n];
+				list[n] = value;
+			}
+		}
+	}
 	//Enemy inherits from MovingObject, our base class for objects that can move, Player also inherits from this.
 	public class Enemy : MovingObject
 	{
+		/// <summary>
+		/// ////
+		
+		/// </summary>
 		public int playerDamage; 							//The amount of food points to subtract from the player when attacking.
 		public AudioClip attackSound1;						//First of two audio clips to play when attacking the player.
 		public AudioClip attackSound2;                      //Second of two audio clips to play when attacking the player.
-        public int health;
+        public int m_HealthMax;
         public bool isDead;
 		private Animator animator;							//Variable of type Animator to store a reference to the enemy's Animator component.
-		private Transform target;							//Transform to attempt to move toward each turn.
-		private bool skipMove;                              //Boolean to determine whether or not enemy should skip a turn or move this turn.
+		private Transform target;                           //Transform to attempt to move toward each turn.
+		private int m_HealthCurrent;
         private Image[] healthBars;
         private Image greenHealthBar;
         //Start overrides the virtual Start function of the base class.
@@ -24,7 +46,7 @@ namespace Completed
 			//Register this enemy with our instance of GameManager by adding it to a list of Enemy objects. 
 			//This allows the GameManager to issue movement commands.
 			GameManager.instance.AddEnemyToList (this);
-            health = 1;
+			m_HealthCurrent = m_HealthMax;
             healthBars = GetComponentsInChildren<Image>();
             foreach(Image i in healthBars)
             {
@@ -44,24 +66,14 @@ namespace Completed
 		}
 		
 		
-		//Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
-		//See comments in MovingObject for more on how base AttemptMove function works.
-		protected override void AttemptMove <T> (int xDir, int yDir)
-		{
-			//Check if skipMove is true, if so set it to false and skip this turn.
-			if(skipMove)
-			{
-				skipMove = false;
-				return;
-				
-			}
+		////Override the AttemptMove function of MovingObject to include functionality needed for Enemy to skip turns.
+		////See comments in MovingObject for more on how base AttemptMove function works.
+		//protected override Transform AttemptMove <T> (int xDir, int yDir)
+		//{
+		//	//Call the AttemptMove function from MovingObject.
+		//	return base.AttemptMove<T>(xDir, yDir);
 			
-			//Call the AttemptMove function from MovingObject.
-			base.AttemptMove <T> (xDir, yDir);
-			
-			//Now that Enemy has moved, set skipMove to true to skip next move.
-			skipMove = true;
-		}
+		//}
 		
 		
 		//MoveEnemy is called by the GameManger each turn to tell each Enemy to try to move towards the player.
@@ -71,20 +83,46 @@ namespace Completed
 			//These values allow us to choose between the cardinal directions: up, down, left and right.
 			int xDir = 0;
 			int yDir = 0;
-			
-			//If the difference in positions is approximately zero (Epsilon) do the following:
-			if(Mathf.Abs (target.position.x - transform.position.x) < float.Epsilon)
-				
-				//If the y coordinate of the target's (player) position is greater than the y coordinate of this enemy's position set y direction 1 (to move up). If not, set it to -1 (to move down).
+
+			if (Mathf.Abs(target.position.x - transform.position.x) < Mathf.Abs(target.position.y - transform.position.y) )
 				yDir = target.position.y > transform.position.y ? 1 : -1;
-			
-			//If the difference in positions is not approximately zero (Epsilon) do the following:
 			else
-				//Check if target x position is greater than enemy's x position, if so set x direction to 1 (move right), if not set to -1 (move left).
 				xDir = target.position.x > transform.position.x ? 1 : -1;
+
+			Vector2 player_dir = new Vector2(xDir, yDir);
+			List<Vector2> attack_positions = new List<Vector2>( );
+			List<Vector2> temp = new List<Vector2>(4);
+
+			//attack_positions.Add(player_dir);
+			temp.Add(new Vector2( -1, 0));
+			temp.Add(new Vector2(1, 0));
+			temp.Add(new Vector2(0,-1));
+			temp.Add(new Vector2(0, 1));
+			temp.Shuffle();
+
+			int index = 0;
+
+			for (int x = 0; x < 4; x++)
+				if (temp[x] == player_dir)
+				{
+					index = x;
+					break;
+				}
+			for (int x = 0; x < 4; x++)
+				attack_positions.Add( temp[(index++) % 4] );
+
+
+			for (int x = 0; x < 4; x++)
+			{
+				Transform thit_transform = AttemptMove<Player>((int)attack_positions[x].x , (int)attack_positions[x].y);
+				if (thit_transform == null)
+					break;
+
+				Wall hitComponent = thit_transform.GetComponent<Wall>();
+				if (hitComponent == null)
+					return;
+			}
 			
-			//Call the AttemptMove function and pass in the generic parameter Player, because Enemy is moving and expecting to potentially encounter a Player
-			AttemptMove <Player> (xDir, yDir);
 		}
 
 
@@ -96,8 +134,8 @@ namespace Completed
 			Player hitPlayer = component as Player;
 			if (component.gameObject.tag == "Player")
 			{
-				Debug.Log("KUR ZA PEPI");
-				//hitPlayer.Take
+
+				hitPlayer.TakeDamage(playerDamage);
 			}
 
             ////Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
@@ -111,9 +149,9 @@ namespace Completed
         }
         public void DamageEnemy(int dmg)
         {            
-            health-=dmg;
+            m_HealthCurrent-=dmg;
            // greenHealthBar.fillAmount = health; To do link enemy health and the fill amount of the green bar;
-            if(health == 0)
+            if(m_HealthCurrent <= 0)
             {
                 isDead = true;
             }
