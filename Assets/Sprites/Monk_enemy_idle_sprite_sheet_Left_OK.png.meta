@@ -1,11 +1,12 @@
 fileFormatVersion: 2
-guid: 10ec6956613478c4689d6c44199caf45
-timeCreated: 1454176871
+guid: 89525d12e2b8766488f14b0dab0d61aa
+timeCreated: 1454182270
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hero_attack_sprite_sheet_Left_OK_0
-    21300002: hero_attack_sprite_sheet_Left_OK_1
+    21300000: Monk_enemy_idle_sprite_sheet_Left_OK_0
+    21300002: Monk_enemy_idle_sprite_sheet_Left_OK_1
+    21300004: Monk_enemy_idle_sprite_sheet_Left_OK_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -46,13 +47,13 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 52
+  spritePixelsToUnits: 50
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hero_attack_sprite_sheet_Left_OK_0
+    - name: Monk_enemy_idle_sprite_sheet_Left_OK_0
       rect:
         serializedVersion: 2
         x: 0
@@ -63,14 +64,15 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 25, y: 30}
-        - {x: -14, y: 30}
-        - {x: -31, y: 10}
-        - {x: -32, y: 6}
-        - {x: -32, y: -20}
-        - {x: -7, y: -31}
-        - {x: 25, y: -31}
-    - name: hero_attack_sprite_sheet_Left_OK_1
+      - - {x: -1, y: 24}
+        - {x: -23, y: 15}
+        - {x: -27, y: 9}
+        - {x: -27, y: -23}
+        - {x: -20, y: -26}
+        - {x: 28, y: -26}
+        - {x: 28, y: 14}
+        - {x: 25, y: 24}
+    - name: Monk_enemy_idle_sprite_sheet_Left_OK_1
       rect:
         serializedVersion: 2
         x: 100
@@ -81,19 +83,36 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 16, y: -31}
-        - {x: 23, y: -23}
-        - {x: 25, y: -13}
-        - {x: 25, y: 28}
-        - {x: 20, y: 30}
-        - {x: -23, y: 30}
-        - {x: -24, y: 23}
-        - {x: -24, y: -11}
-        - {x: -13, y: -31}
-        - {x: 0, y: -31}
-        - {x: 2, y: -29}
-        - {x: 3, y: -30}
-        - {x: 6, y: -31}
+      - - {x: 13, y: 25}
+        - {x: 0, y: 25}
+        - {x: -25, y: 13}
+        - {x: -27, y: 6}
+        - {x: -27, y: -10}
+        - {x: -4, y: -26}
+        - {x: 22, y: -26}
+        - {x: 28, y: -23}
+        - {x: 28, y: 11}
+        - {x: 18, y: 24}
+    - name: Monk_enemy_idle_sprite_sheet_Left_OK_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 100
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 13, y: 25}
+        - {x: 0, y: 25}
+        - {x: -27, y: 10}
+        - {x: -27, y: -10}
+        - {x: -4, y: -26}
+        - {x: 22, y: -26}
+        - {x: 28, y: -23}
+        - {x: 28, y: 10}
+        - {x: 18, y: 24}
     outline: []
   spritePackingTag: 
   userData: 

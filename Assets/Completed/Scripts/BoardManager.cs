@@ -37,7 +37,8 @@ namespace Completed
 		public GameObject[] enemyTiles;									//Array of enemy prefabs.
 		public GameObject[] outerWallTiles;                             //Array of outer tile prefabs.
         public GameObject[] shegobiici;                                 // Array of Npc's to tell jokes to the player 
-		private Transform boardHolder;									//A variable to store a reference to the transform of our Board object.
+        public GameObject[] prizes;
+        private Transform boardHolder;									//A variable to store a reference to the transform of our Board object.
 		private List <Vector3> gridPositions = new List <Vector3> ();	//A list of possible locations to place tiles.
 		
 		
@@ -143,8 +144,10 @@ namespace Completed
 			//Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
 			LayoutObjectAtRandom (foodTiles, foodCount.minimum, foodCount.maximum);
 
+            //Spaw the 3 prizes
+            LayoutObjectAtRandom(prizes, 3,3);
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = 0; //(int)Mathf.Log(level, 2f);
+            int enemyCount = 5; //(int)Mathf.Log(level, 2f);
 			
 			//Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
 			LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);

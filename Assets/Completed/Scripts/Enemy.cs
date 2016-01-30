@@ -136,7 +136,8 @@ namespace Completed
 			{
 
 				hitPlayer.TakeDamage(playerDamage);
-			}
+                animator.SetTrigger("enemyAttack");
+            }
 
             ////Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
             //hitPlayer.LoseFood(playerDamage);
@@ -150,10 +151,13 @@ namespace Completed
         public void DamageEnemy(int dmg)
         {            
             m_HealthCurrent-=dmg;
-           // greenHealthBar.fillAmount = health; To do link enemy health and the fill amount of the green bar;
-            if(m_HealthCurrent <= 0)
+            greenHealthBar.fillAmount = (float)m_HealthCurrent / m_HealthMax;
+            // greenHealthBar.fillAmount = health; To do link enemy health and the fill amount of the green bar;
+            if (m_HealthCurrent <= 0)
             {
                 isDead = true;
+              
+                
             }
         }
 	}

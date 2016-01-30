@@ -15,7 +15,8 @@ namespace Completed
 		public LayerMask blockingLayer;         //Layer on which collision will be checked.
 
 		public DIRECTION	m_Direction;
-		private BoxCollider2D boxCollider; 		//The BoxCollider2D component attached to this object.
+        public DIRECTION m_prev_direction;
+        private BoxCollider2D boxCollider; 		//The BoxCollider2D component attached to this object.
 		private Rigidbody2D rb2D;				//The Rigidbody2D component attached to this object.
 		private float inverseMoveTime;			//Used to make movement more efficient.
 		
@@ -53,15 +54,23 @@ namespace Completed
 			
 			//Re-enable boxCollider after linecast
 			boxCollider.enabled = true;
-			
-			//Check if anything was hit
-			if(hit.transform == null)
+
+            //Check if anything was hit
+            m_prev_direction = m_Direction;
+            m_Direction = xDir == -1 ? DIRECTION.Left : DIRECTION.Right;
+            if (yDir != 0)
+            {
+                m_Direction = m_prev_direction;
+            }
+            if (hit.transform == null)
 			{
-				//If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
-				StartCoroutine (SmoothMovement (end));
-				if (xDir != 0)
-					m_Direction = xDir == -1 ? DIRECTION.Left : DIRECTION.Right;
+              
                 PlayMoveAnimation();
+                //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
+                StartCoroutine (SmoothMovement (end));
+				if (xDir != 0)
+					
+                
                 //Return true to say that Move was successful
                 return true;
 			}

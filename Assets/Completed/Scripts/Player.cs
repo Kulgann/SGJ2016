@@ -161,13 +161,36 @@ namespace Completed
                 if (hitWall != null && hitWall.dmgSprite != null)
                 {
                     hitWall.DamageWall(wallDamage);
-                    animator.SetTrigger("playerChop");
+                    if (m_Direction == m_prev_direction)
+                    {
+                        animator.SetTrigger("playerChop");
+                    }
+                    if (m_Direction == DIRECTION.Left && m_prev_direction == DIRECTION.Right)
+                    {
+                        animator.SetTrigger("chop_right_left");
+                    }
+                    if (m_Direction == DIRECTION.Right && m_prev_direction == DIRECTION.Left)
+                    {
+                        animator.SetTrigger("chop_left_right");
+                    }
+
                 }
 				Enemy hitEnemy = hit_transform.GetComponent<Enemy>();
                 if (hitEnemy != null)
                 {
                     hitEnemy.DamageEnemy(enemyDamage);
-                    animator.SetTrigger("playerChop");
+                    if (m_Direction == m_prev_direction)
+                    {
+                        animator.SetTrigger("playerChop");
+                    }
+                    if (m_Direction == DIRECTION.Left && m_prev_direction == DIRECTION.Right)
+                    {
+                        animator.SetTrigger("chop_right_left");
+                    }
+                    if (m_Direction == DIRECTION.Right && m_prev_direction == DIRECTION.Left)
+                    {
+                        animator.SetTrigger("chop_left_right");
+                    }
                 }
             }
 
