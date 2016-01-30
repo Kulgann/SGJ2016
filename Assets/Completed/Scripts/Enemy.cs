@@ -84,7 +84,7 @@ namespace Completed
         protected override void OnCantMove<T>(T component)
         {
             ////Declare hitPlayer and set it to equal the encountered component.
-            //Player hitPlayer = component as Player;
+            Player hitPlayer = component as Player;
             //if (component.gameObject.tag == "Player")
             //{
             //    Debug.Log("KUR ZA PEPI");
