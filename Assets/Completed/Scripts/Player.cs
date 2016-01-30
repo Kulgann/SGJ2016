@@ -154,7 +154,7 @@ namespace Completed
 			//Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
 			Transform hit_transform = base.AttemptMove <T> (xDir, yDir);
 
-			if (hit_transform != null)
+			if (hit_transform != null && m_AleCurrent >0)
 			{
 				
 				//play hit animation and sound
@@ -267,7 +267,8 @@ namespace Completed
            else if(other.tag == "Prize")
             {
                 collectedPrizes++;
-                if(collectedPrizes == 3)
+                other.gameObject.SetActive(false);
+                if (collectedPrizes == 3)
                 {
                     //ToDo enable ezxit portal/boat thing 
                 }
