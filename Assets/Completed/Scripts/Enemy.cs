@@ -84,11 +84,13 @@ namespace Completed
         protected override void OnCantMove<T>(T component)
         {
             ////Declare hitPlayer and set it to equal the encountered component.
-            Player hitPlayer = component as Player;
-            //if (component.gameObject.tag == "Player")
-            //{
-            //    Debug.Log("KUR ZA PEPI");
-            //}
+			Player hitPlayer = component as Player;
+			if (component.gameObject.tag == "Player")
+			{
+				Debug.Log("KUR ZA PEPI");
+				//hitPlayer.Take
+
+			}
 
             ////Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
             //hitPlayer.LoseFood(playerDamage);
