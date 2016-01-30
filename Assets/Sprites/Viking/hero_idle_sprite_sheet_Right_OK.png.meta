@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: eaff45856b754734aa85ce97a4893981
-timeCreated: 1454154212
+guid: 7494729d509b5734087f2a23b17cf50a
+timeCreated: 1454162538
 licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
-    21300000: hero_idle_sprite_sheet_0
-    21300002: hero_idle_sprite_sheet_1
-    21300004: hero_idle_sprite_sheet_2
+    21300000: hero_idle_sprite_sheet_Right_OK_0
+    21300002: hero_idle_sprite_sheet_Right_OK_1
+    21300004: hero_idle_sprite_sheet_Right_OK_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -47,70 +47,71 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 52
+  spritePixelsToUnits: 56
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: hero_idle_sprite_sheet_0
+    - name: hero_idle_sprite_sheet_Right_OK_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 22
-        width: 52
-        height: 56
+        x: 0
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -14, y: 28}
-        - {x: -26, y: 1}
-        - {x: -26, y: -26}
-        - {x: -21, y: -28}
-        - {x: 24, y: -28}
-        - {x: 26, y: -27}
-        - {x: 26, y: 16}
-        - {x: 20, y: 28}
-    - name: hero_idle_sprite_sheet_1
+      - - {x: 8, y: 29}
+        - {x: -21, y: 29}
+        - {x: -28, y: 15}
+        - {x: -28, y: -25}
+        - {x: -18, y: -31}
+        - {x: 6, y: -31}
+        - {x: 28, y: -18}
+        - {x: 28, y: -13}
+        - {x: 27, y: -9}
+    - name: hero_idle_sprite_sheet_Right_OK_1
       rect:
         serializedVersion: 2
-        x: 124
-        y: 21
-        width: 52
-        height: 57
+        x: 100
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -11, y: 28.5}
-        - {x: -23, y: 4.5}
-        - {x: -26, y: -2.5}
-        - {x: -26, y: -28.5}
-        - {x: 25, y: -28.5}
-        - {x: 26, y: -22.5}
-        - {x: 26, y: 20.5}
-        - {x: 20, y: 28.5}
-    - name: hero_idle_sprite_sheet_2
+      - - {x: -21, y: 30}
+        - {x: -28, y: 16}
+        - {x: -28, y: -20}
+        - {x: -27, y: -24}
+        - {x: -18, y: -31}
+        - {x: 7, y: -31}
+        - {x: 28, y: -22}
+        - {x: 28, y: -2}
+        - {x: 10, y: 30}
+    - name: hero_idle_sprite_sheet_Right_OK_2
       rect:
         serializedVersion: 2
-        x: 224
-        y: 21
-        width: 52
-        height: 57
+        x: 200
+        y: 0
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 26, y: -28.5}
-        - {x: 26, y: 28.5}
-        - {x: -18, y: 28.5}
-        - {x: -26, y: 12.5}
-        - {x: -26, y: -16.5}
-        - {x: -7, y: -28.5}
-        - {x: 5, y: -28.5}
-        - {x: 5, y: -24.5}
-        - {x: 7, y: -28.5}
+      - - {x: -28, y: -25}
+        - {x: -24, y: -31}
+        - {x: 9, y: -31}
+        - {x: 28, y: -26}
+        - {x: 28, y: 9}
+        - {x: 16, y: 30}
+        - {x: -19, y: 30}
+        - {x: -28, y: 16}
     outline: []
   spritePackingTag: 
   userData: 
