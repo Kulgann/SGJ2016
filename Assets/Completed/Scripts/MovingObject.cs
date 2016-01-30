@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+
 namespace Completed
 {
 	//The abstract keyword enables you to create classes and class members that are incomplete and must be implemented in a derived class.
@@ -100,7 +100,6 @@ namespace Completed
 			//Set canMove to true if Move was successful, false if failed.
 			bool canMove = Move (xDir, yDir, out hit);
 			
-            
 			//Check if nothing was hit by linecast
 			if(hit.transform == null)
 				//If nothing was hit, return and don't execute further code.
@@ -108,12 +107,8 @@ namespace Completed
 			
 			//Get a component reference to the component of type T attached to the object that was hit
 			T hitComponent = hit.transform.GetComponent <T> ();
-            Type currentType = hitComponent.GetType();
-           if(currentType == typeof(Wall))
-            {
-                Debug.Log("EBAH TA !!!");
-            }
-            //If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
+			
+			//If canMove is false and hitComponent is not equal to null, meaning MovingObject is blocked and has hit something it can interact with.
 			if(!canMove && hitComponent != null)
 				
 				//Call the OnCantMove function and pass it hitComponent as a parameter.
