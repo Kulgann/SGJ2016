@@ -24,19 +24,22 @@ namespace Completed
 		//DamageWall is called when the player attacks a wall.
 		public void DamageWall (int loss)
 		{
-			//Call the RandomizeSfx function of SoundManager to play one of two chop sounds.
-			SoundManager.instance.RandomizeSfx (chopSound1, chopSound2);
-			
-			//Set spriteRenderer to the damaged wall sprite.
-			spriteRenderer.sprite = dmgSprite;
-			
-			//Subtract loss from hit point total.
-			hp -= loss;
-			
-			//If hit points are less than or equal to zero:
-			if(hp <= 0)
-				//Disable the gameObject.
-				gameObject.SetActive (false);
+            if (dmgSprite != null)
+            {
+                //Call the RandomizeSfx function of SoundManager to play one of two chop sounds.
+                SoundManager.instance.RandomizeSfx(chopSound1, chopSound2);
+
+                //Set spriteRenderer to the damaged wall sprite.
+                spriteRenderer.sprite = dmgSprite;
+
+                //Subtract loss from hit point total.
+                hp -= loss;
+
+                //If hit points are less than or equal to zero:
+                if (hp <= 0)
+                    //Disable the gameObject.
+                    gameObject.SetActive(false);
+            }
 		}
 	}
 }

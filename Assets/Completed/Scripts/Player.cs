@@ -172,16 +172,21 @@ namespace Completed
                 hitWall = component as Wall;
                 //Call the DamageWall function of the Wall we are hitting.
                 hitWall.DamageWall(wallDamage);
+                if (hitWall.dmgSprite != null)
+                {
+                    animator.SetTrigger("playerChop");
+                }
             }
             if(component.gameObject.tag == "Enemy")
             {
                 hitEnemy = component as Enemy;
                 //Call the DamageEnemy function from the Enemy we are hitting 
                 hitEnemy.DamageEnemy(m_Damage);
+                animator.SetTrigger("playerChop");
             }
          
 			//Set the attack trigger of the player's animation controller in order to play the player's attack animation.
-			animator.SetTrigger ("playerChop");
+			
 		}
 
 
