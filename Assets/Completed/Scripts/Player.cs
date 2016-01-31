@@ -162,7 +162,11 @@ namespace Completed
                 if (hitWall != null && hitWall.dmgSprite != null)
                 {
                     hitWall.DamageWall(wallDamage);
-                    if (m_Direction == m_prev_direction)
+                    if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Left)
+                    {
+                        animator.SetTrigger("chop_left");
+                    }
+                    if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Right)
                     {
                         animator.SetTrigger("playerChop");
                     }
