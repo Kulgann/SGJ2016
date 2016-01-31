@@ -18,7 +18,9 @@ namespace Completed
 		public Text m_AleText;                      //UI Text to display current player food total.
 		public Text m_HealthText;                   //UI Text to display current player food total.
 		public AudioClip moveSound1;				//1 of 2 Audio clips to play when player moves.
-		public AudioClip moveSound2;				//2 of 2 Audio clips to play when player moves.
+		public AudioClip moveSound2;                //2 of 2 Audio clips to play when player moves.
+		public AudioClip attackSound1;                //1 of 2 Audio clips to play when player moves.
+		public AudioClip attackSound2;
 		public AudioClip eatSound1;					//1 of 2 Audio clips to play when player collects a food object.
 		public AudioClip eatSound2;					//2 of 2 Audio clips to play when player collects a food object.
 		public AudioClip drinkSound1;				//1 of 2 Audio clips to play when player collects a soda object.
@@ -146,7 +148,45 @@ namespace Completed
                 animator.SetTrigger("isMovingleft");
             }
         }
-        protected override Transform AttemptMove <T> (int xDir, int yDir)
+
+		protected override void PlayAttackAnimation()
+		{
+			
+			if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Left)
+			{
+				animator.SetTrigger("chop_left");
+			}
+			if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Right)
+			{
+				animator.SetTrigger("playerChop");
+			}
+			if (m_Direction == DIRECTION.Left && m_prev_direction == DIRECTION.Right)
+			{
+				animator.SetTrigger("chop_right_left");
+			}
+			if (m_Direction == DIRECTION.Right && m_prev_direction == DIRECTION.Left)
+			{
+				animator.SetTrigger("chop_left_right");
+			}
+		}
+
+		private void PlayOnHitAnimation()
+		{
+			animator.SetTrigger("playerHit");
+		}
+
+		private void PlayAttackSound()
+		{
+			SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
+		}
+
+		protected override void PlayMoveSound()
+		{
+			SoundManager.instance.RandomizeSfx(moveSound1, moveSound2);
+		}
+
+
+		protected override Transform AttemptMove <T> (int xDir, int yDir)
 		{
 			//Every time player moves, subtract from food points total.
 			ChangeAle(-1);
@@ -155,60 +195,24 @@ namespace Completed
 			Transform hit_transform = base.AttemptMove <T> (xDir, yDir);
 
 			if (hit_transform != null && m_AleCurrent >0)
-			{
-				
+			{				
 				//play hit animation and sound
 				Wall hitWall = hit_transform.GetComponent<Wall>();
                 if (hitWall != null && hitWall.dmgSprite != null)
                 {
-                    hitWall.DamageWall(wallDamage);
-                    if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Left)
-                    {
-                        animator.SetTrigger("chop_left");
-                    }
-                    if (m_Direction == m_prev_direction && m_Direction == DIRECTION.Right)
-                    {
-                        animator.SetTrigger("playerChop");
-                    }
-                    if (m_Direction == DIRECTION.Left && m_prev_direction == DIRECTION.Right)
-                    {
-                        animator.SetTrigger("chop_right_left");
-                    }
-                    if (m_Direction == DIRECTION.Right && m_prev_direction == DIRECTION.Left)
-                    {
-                        animator.SetTrigger("chop_left_right");
-                    }
-
-                }
+					hitWall.DamageWall(wallDamage);
+					PlayAttackAnimation();
+					PlayAttackSound();
+				}
 				Enemy hitEnemy = hit_transform.GetComponent<Enemy>();
                 if (hitEnemy != null)
                 {
-                    hitEnemy.DamageEnemy(enemyDamage);
-                    if (m_Direction == m_prev_direction)
-                    {
-                        animator.SetTrigger("playerChop");
-                    }
-                    if (m_Direction == DIRECTION.Left && m_prev_direction == DIRECTION.Right)
-                    {
-                        animator.SetTrigger("chop_right_left");
-                    }
-                    if (m_Direction == DIRECTION.Right && m_prev_direction == DIRECTION.Left)
-                    {
-                        animator.SetTrigger("chop_left_right");
-                    }
-                }
+					hitEnemy.DamageEnemy(enemyDamage);
+					PlayAttackAnimation();
+					PlayAttackSound();
+				}
             }
 
-			//Hit allows us to reference the result of the Linecast done in Move.
-				RaycastHit2D hit;
-			
-			//If Move returns true, meaning Player was able to move into an empty space.
-			if (Move (xDir, yDir, out hit)) 
-			{
-				//Call RandomizeSfx of SoundManager to play the move sound, passing in two audio clips to choose from.
-				SoundManager.instance.RandomizeSfx (moveSound1, moveSound2);
-			}
-			
 			//Since the player has moved and lost food points, check if the game has ended.
 			CheckIfGameOver ();
 			
@@ -241,8 +245,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Food.
             else if (other.tag == "Food")
             {
-				ChangeHealth(pointsPerFood);
-				
+				ChangeHealth(pointsPerFood);				
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);

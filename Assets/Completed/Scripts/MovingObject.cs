@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Random = UnityEngine.Random;
 namespace Completed
 {
 	public enum DIRECTION
@@ -13,6 +14,7 @@ namespace Completed
 	{
 		public float moveTime = 0.1f;			//Time it will take object to move, in seconds.
 		public LayerMask blockingLayer;         //Layer on which collision will be checked.
+		public int m_HitChance = 100;
 
 		public DIRECTION	m_Direction;
         public DIRECTION m_prev_direction;
@@ -64,14 +66,9 @@ namespace Completed
             }
             if (hit.transform == null)
 			{
-              
                 PlayMoveAnimation();
-                //If nothing was hit, start SmoothMovement co-routine passing in the Vector2 end as destination
+				PlayMoveSound();
                 StartCoroutine (SmoothMovement (end));
-				if (xDir != 0)
-					
-                
-                //Return true to say that Move was successful
                 return true;
 			}
 			
@@ -105,10 +102,18 @@ namespace Completed
 			}
 		}
 
-        protected virtual void PlayMoveAnimation()
-        {
-        
-        }
+		protected virtual void PlayMoveSound()
+		{ }
+
+		protected abstract void PlayMoveAnimation();
+		protected abstract void PlayAttackAnimation();
+
+		protected bool RollAttackChance()
+		{
+			int roll = Random.Range(1, 101);
+			return roll < m_HitChance;
+		}
+
 		//The virtual keyword means AttemptMove can be overridden by inheriting classes using the override keyword.
 		//AttemptMove takes a generic parameter T to specify the type of component we expect our unit to interact with if blocked (Player for Enemies, Wall for Player).
 		protected virtual Transform AttemptMove <T> (int xDir, int yDir)

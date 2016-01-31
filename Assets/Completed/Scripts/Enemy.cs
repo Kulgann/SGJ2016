@@ -118,36 +118,49 @@ namespace Completed
 				if (thit_transform == null)
 					break;
 
-				Wall hitComponent = thit_transform.GetComponent<Wall>();
-				if (hitComponent == null)
+				Enemy hitComponent = thit_transform.GetComponent<Enemy>();
+				if (hitComponent != null)
+					continue;
+
+				Wall wallComponent = thit_transform.GetComponent<Wall>();
+				if (wallComponent == null)
 					return;
 			}
 			
 		}
 
+		protected override void PlayMoveAnimation()
+		{
+		}
 
-        //OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject 
-        //and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
-        protected override void OnCantMove<T>(T component)
+		protected override void PlayAttackAnimation()
+		{
+			animator.SetTrigger("enemyAttack");
+		}
+
+		//OnCantMove is called if Enemy attempts to move into a space occupied by a Player, it overrides the OnCantMove function of MovingObject 
+		//and takes a generic parameter T which we use to pass in the component we expect to encounter, in this case Player
+		protected override void OnCantMove<T>(T component)
         {
             ////Declare hitPlayer and set it to equal the encountered component.
 			Player hitPlayer = component as Player;
 			if (component.gameObject.tag == "Player")
 			{
+				if (RollAttackChance())
+				{
+					hitPlayer.TakeDamage(playerDamage);
+					PlayAttackAnimation();
 
-				hitPlayer.TakeDamage(playerDamage);
-                animator.SetTrigger("enemyAttack");
-            }
+					////Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
+					SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
+				}
+				else
+				{
+					//SHOW MISS MESSAGE
+				}
+			}
+		}
 
-            ////Call the LoseFood function of hitPlayer passing it playerDamage, the amount of foodpoints to be subtracted.
-            //hitPlayer.LoseFood(playerDamage);
-
-            ////Set the attack trigger of animator to trigger Enemy attack animation.
-            //animator.SetTrigger("enemyAttack");
-
-            ////Call the RandomizeSfx function of SoundManager passing in the two audio clips to choose randomly between.
-            //SoundManager.instance.RandomizeSfx(attackSound1, attackSound2);
-        }
         public void DamageEnemy(int dmg)
         {            
             m_HealthCurrent-=dmg;
@@ -155,9 +168,7 @@ namespace Completed
             // greenHealthBar.fillAmount = health; To do link enemy health and the fill amount of the green bar;
             if (m_HealthCurrent <= 0)
             {
-                isDead = true;
-              
-                
+                isDead = true;                
             }
         }
 	}
