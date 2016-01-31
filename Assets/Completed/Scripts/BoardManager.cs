@@ -147,7 +147,7 @@ namespace Completed
             //Spaw the 3 prizes
             LayoutObjectAtRandom(prizes, 3,3);
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = 5; //(int)Mathf.Log(level, 2f);
+            int enemyCount = 15; //(int)Mathf.Log(level, 2f);
 			
 			//Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
 			LayoutObjectAtRandom (enemyTiles, enemyCount, enemyCount);
@@ -156,5 +156,9 @@ namespace Completed
             Vector3 testVect = RandomPosition();
 			Instantiate (exit, new Vector3 (testVect.x, rows - 1, 0f), Quaternion.identity);
 		}
+        public void SpawnMoreEnemies(int enemyCount)
+        {
+            LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+        }
 	}
 }

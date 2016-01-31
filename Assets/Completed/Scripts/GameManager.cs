@@ -72,9 +72,9 @@ namespace Completed
 			
 			//Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
 			levelText = GameObject.Find("LevelText").GetComponent<Text>();
-			
-			//Set the text of levelText to the string "Day" and append the current level number.
-			levelText.text = "Day " + level;
+
+            //Set the text of levelText to the string "Day" and append the current level number.
+            levelText.text = "Da ritual beginz...";
 			
 			//Set levelImage to active blocking player's view of the game board during setup.
 			levelImage.SetActive(true);
@@ -126,7 +126,7 @@ namespace Completed
 		public void GameOver()
 		{
 			//Set levelText to display number of levels passed and game over message
-			levelText.text = "After " + level + " days, you starved.";
+			levelText.text = "You have failed in your Quest weekling!!";
 			
 			//Enable black background image gameObject.
 			levelImage.SetActive(true);
@@ -158,6 +158,10 @@ namespace Completed
                 {
                     Destroy(enemies[i].gameObject);
                     enemies.Remove(enemies[i]);
+                    if(enemies.Count == 0)
+                    {
+                        boardScript.SpawnMoreEnemies(5);
+                    }
 
                 }
                 //Call the MoveEnemy function of Enemy at index i in the enemies List.
@@ -165,7 +169,8 @@ namespace Completed
                     enemies[i].MoveEnemy();
 
                     //Wait for Enemy's moveTime before moving next Enemy, 
-                    yield return new WaitForSeconds(enemies[i].moveTime);
+                    // yield return new WaitForSeconds(enemies[i].moveTime);
+                    yield return null;
                 }
 			}
 			//Once Enemies are done moving, set playersTurn to true so player can move.
